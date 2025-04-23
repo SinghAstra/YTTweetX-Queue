@@ -1,0 +1,39 @@
+{
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "@prisma/client": "^6.5.0",
+    "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.9",
+    "@types/node": "^22.13.10",
+    "bullmq": "^5.43.1",
+    "concurrently": "^9.1.2",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "googleapis": "^148.0.0",
+    "ioredis": "^5.6.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.5.0",
+    "pusher": "^5.2.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.2",
+    "uuid": "^11.1.0"
+  },
+  "name": "yttweetx-queue",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "postinstall": "prisma generate",
+    "watch": "tsc --watch",
+    "dev:worker1": "node dist/workers/video.js --id=1",
+    "dev:worker2": "node dist/workers/blog-title-and-summary.js --id=2",
+    "dev:worker3": "node dist/workers/blog-content.js --id=3",
+    "dev:server": "node dist/index.js",
+    "dev": "concurrently \"npm run watch\" \"npm run dev:server\" \"npm run dev:worker1\" \"npm run dev:worker2\" \"npm run dev:worker3\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
