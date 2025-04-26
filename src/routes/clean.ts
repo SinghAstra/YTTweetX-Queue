@@ -1,9 +1,7 @@
 import { Queue } from "bullmq";
 import "dotenv/config";
 import { Request, Response, Router } from "express";
-import { QUEUES } from "../lib/constants.js";
 import redisClient from "../lib/redis.js";
-import { verifyCleanJobToken } from "../middleware/verify-clean-job-token.js";
 
 const router = Router();
 
@@ -34,7 +32,7 @@ router.get(
           const chunkSize = 100;
           for (let i = 0; i < scanKeys.length; i += chunkSize) {
             const chunk = scanKeys.slice(i, i + chunkSize);
-            await redisConnection.del(...chunk);
+            await redisClient.del(...chunk);
           }
         }
       } while (cursor !== "0");
@@ -48,7 +46,7 @@ router.get(
       ];
 
       for (const queueName of queueNames) {
-        const queue = new Queue(queueName, { connection: redisConnection });
+        const queue = new Queue(queueName, { connection: redisClient });
         await queue.obliterate({ force: true });
         await queue.close();
       }
